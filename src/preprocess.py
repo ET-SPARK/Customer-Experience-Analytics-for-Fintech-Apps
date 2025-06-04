@@ -19,3 +19,7 @@ def preprocess_reviews(input_csv, output_csv):
 
 if __name__ == "__main__":
     preprocess_reviews("data/raw_reviews.csv", "data/clean_reviews.csv")
+
+
+
+

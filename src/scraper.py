@@ -22,9 +22,9 @@ def fetch_reviews(app_id, bank_name):
 
 if __name__ == "__main__":
     apps = {
-        "BankA": "com.combanketh.mobilebanking",
-        "BankB": "com.boa.boaMobileBanking",
-        "BankC": "com.dashen.dashensuperapp"
+        "CBE": "com.combanketh.mobilebanking",
+        "BOA": "com.boa.boaMobileBanking",
+        "DB": "com.dashen.dashensuperapp"
     }
 
     all_reviews = pd.DataFrame()
