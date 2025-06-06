@@ -75,6 +75,25 @@ Analyze customer feedback from mobile banking apps to identify key satisfaction 
 
 ---
 
+## Task 4: Insights, Visualizations & Recommendations
+
+### Visualizations
+
+- Created 5 visualizations using `Seaborn`, `Matplotlib` and `WordCloud`:
+
+  - `Sentiment` trend over time by bank
+
+  - `Rating` distribution across banks
+
+  - `Positive` review word cloud (drivers)
+
+  - `Negative` review word cloud (pain points)
+
+  - `Theme` frequency by bank
+
+All visualizations are in:
+📁 `notebook/insights_visuals.ipynb`
+
 ## File Structure
 
 project/
@@ -94,6 +113,7 @@ project/
 ├── notebook/
 │ ├── sentiment_analysis.ipynb
 │ └── thematic_analysis.ipynb
+│ ├── insights_visuals.ipynb
 │ ├── preprocess_reviews.ipynb
 │ └── scrape_reviews.ipynb
 ├── requirements.txt
@@ -126,5 +146,9 @@ project/
 - Data inserted into PostgreSQL with full schema
 
 - SQL dump and ETL script committed to GitHub
+
+- 5 visualizations created with labels, legends, and insights
+
+- Evidence-based product recommendations included
 
 ---
