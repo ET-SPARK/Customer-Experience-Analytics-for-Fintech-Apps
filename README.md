@@ -57,6 +57,24 @@ Analyze customer feedback from mobile banking apps to identify key satisfaction 
 
 ---
 
+## Task 3: Store Cleaned Data in PostgreSQL
+
+### Methodology
+
+- Designed relational schema:
+  - `banks` table: Stores bank info
+  - `reviews` table: Stores cleaned reviews with foreign key to `banks`
+- Used `psycopg2` for Python–PostgreSQL integration
+- Inserted full dataset (`thematic_reviews.csv`) into PostgreSQL
+- Schema and data exported to SQL dump
+
+### Files
+
+- Insert script: `src/store_reviews_postgres.py`
+- SQL dump: `sql/db_schema_dump.sql`
+
+---
+
 ## File Structure
 
 project/
@@ -66,10 +84,13 @@ project/
 │ ├── sentiment_reviews.csv
 │ └── thematic_reviews.csv
 ├── src/
+│ ├── db_schema_dump.sql
+├── src/
 │ ├── sentiment_analyzer.py
 │ └── thematic_analyzer.py
 │ ├── review_preprocessor.py
 │ └── review_scraper.py
+│ └── store_reviews_postgres.py
 ├── notebook/
 │ ├── sentiment_analysis.ipynb
 │ └── thematic_analysis.ipynb
@@ -101,3 +122,9 @@ project/
 - Minimum 3 themes per bank identified
 
 - Modular pipeline with reusable classes for sentiment and thematic analysis
+
+- Data inserted into PostgreSQL with full schema
+
+- SQL dump and ETL script committed to GitHub
+
+---
