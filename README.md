@@ -1,8 +1,8 @@
-# Customer Experience Analytics for Fintech Apps
+# Customer Experience Analytics for Ride-Hailing Apps in Ethiopia
 
 ## Objective
 
-Analyze customer feedback from mobile banking apps to identify key satisfaction drivers and pain points through sentiment and thematic analysis.
+Analyze customer feedback from ride-hailing mobile apps to identify key satisfaction drivers and pain points through sentiment and thematic analysis.
 
 ---
 
@@ -10,12 +10,11 @@ Analyze customer feedback from mobile banking apps to identify key satisfaction 
 
 ### Methodology
 
-- Used `google-play-scraper` to collect reviews for 3 major Ethiopian banking apps:
-  - Commercial Bank of Ethiopia (CBE)
-  - Bank of Abyssinia (BOA)
-  - Dashen Bank (DB)
+- Used `google-play-scraper` to collect reviews for 2 major Ethiopian ride-hailing apps:
+  - Ride (com.multibrains.taxi.passenger.ridepassengeret)
+  - Feres (com.feres.user)
 - Extracted:
-  - `review`, `rating`, `date`, `bank`, `source`
+  - `review`, `rating`, `date`, `provider`, `source`
 - Preprocessing steps:
   - Removed duplicate reviews
   - Dropped missing values
@@ -24,10 +23,9 @@ Analyze customer feedback from mobile banking apps to identify key satisfaction 
 
 ### Dataset Stats
 
-- CBE: 7,483 reviews scraped
-- BOA: 1,044 reviews scraped
-- DB: 449 reviews scraped
-- **Total cleaned reviews:** 6,661
+- Ride: TBD reviews scraped
+- Feres: TBD reviews scraped
+- **Total cleaned reviews:** TBD
 
 ---
 
@@ -46,12 +44,21 @@ Analyze customer feedback from mobile banking apps to identify key satisfaction 
 
 - Used `spaCy` for lemmatization and tokenization
 - Extracted keywords using `TF-IDF` (with n-grams)
-- Manually grouped keywords into 3–5 themes per bank:
-  - Account Access
-  - Transaction Performance
-  - User Interface & UX
-  - Customer Support
-  - Reliability & Speed
+- Manually grouped keywords into comprehensive themes per provider:
+  - **Driver Availability** - wait times, matching, cancellations
+  - **Pricing & Payment** - fares, payment methods, costs
+  - **App Performance** - crashes, bugs, speed, reliability
+  - **Navigation & GPS** - location accuracy, routing, pickup
+  - **Customer Service** - support quality, response time
+  - **UI/UX** - interface design, ease of use
+  - **Safety & Security** - trust, verification, security features
+  - **Driver Behavior** - professionalism, attitude, courtesy
+  - **Vehicle Quality** - cleanliness, comfort, condition
+  - **Booking & Scheduling** - reservation system, advance booking
+  - **Rating System** - feedback mechanisms
+  - **Promotions & Discounts** - offers, coupons, deals
+  - **Communication** - driver-passenger messaging, calls
+  - **Trip Experience** - overall ride quality and satisfaction
 - Added column `identified_theme`
 - Output: `data/thematic_reviews.csv`
 
@@ -62,8 +69,8 @@ Analyze customer feedback from mobile banking apps to identify key satisfaction 
 ### Methodology
 
 - Designed relational schema:
-  - `banks` table: Stores bank info
-  - `reviews` table: Stores cleaned reviews with foreign key to `banks`
+  - `providers` table: Stores ride-hailing provider info
+  - `reviews` table: Stores cleaned reviews with foreign key to `providers`
 - Used `psycopg2` for Python–PostgreSQL integration
 - Inserted full dataset (`thematic_reviews.csv`) into PostgreSQL
 - Schema and data exported to SQL dump
@@ -81,15 +88,15 @@ Analyze customer feedback from mobile banking apps to identify key satisfaction 
 
 - Created 5 visualizations using `Seaborn`, `Matplotlib` and `WordCloud`:
 
-  - `Sentiment` trend over time by bank
+  - `Sentiment` trend over time by provider
 
-  - `Rating` distribution across banks
+  - `Rating` distribution across providers
 
   - `Positive` review word cloud (drivers)
 
   - `Negative` review word cloud (pain points)
 
-  - `Theme` frequency by bank
+  - `Theme` frequency by provider
 
 All visualizations are in:
 📁 `notebook/insights_visuals.ipynb`
@@ -124,14 +131,108 @@ project/
 
 ## How to Run
 
-1. Install dependencies:
+### Prerequisites
+- Python 3.10 or higher
+- PostgreSQL (optional, for database storage)
+- Virtual environment (recommended)
 
-   ```bash
-   pip install -r requirements.txt
+### Step 1: Set Up Virtual Environment
 
-   ```
+```bash
+# Create a virtual environment
+python -m venv venv
 
-2. Run each step using the Jupyter notebooks in the notebook/ folder.
+# Activate the virtual environment
+# On Linux/Mac:
+source venv/bin/activate
+# On Windows:
+venv\Scripts\activate
+```
+
+### Step 2: Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### Step 3: Run the Analysis Pipeline
+
+The project follows a sequential pipeline. Run each notebook in order:
+
+#### 3.1 Scrape Reviews
+```bash
+# Open Jupyter Notebook
+jupyter notebook
+
+# Then open and run: notebooks/scrape_reviews.ipynb
+```
+This will scrape reviews from Ride and Feres apps and save to `data/raw_reviews.csv`
+
+#### 3.2 Preprocess Reviews
+```bash
+# Run: notebooks/preprocess_reviews.ipynb
+```
+This cleans the data and saves to `data/clean_reviews.csv`
+
+#### 3.3 Sentiment Analysis
+```bash
+# Run: notebooks/sentiment_analysis.ipynb
+```
+This analyzes sentiment and saves to `data/sentiment_reviews.csv`
+
+#### 3.4 Thematic Analysis
+```bash
+# Run: notebooks/thematic_analysis.ipynb
+```
+This identifies themes and saves to `data/thematic_reviews.csv`
+
+#### 3.5 Generate Insights & Visualizations
+```bash
+# Run: notebooks/insights_visuals.ipynb
+```
+This creates visualizations and insights
+
+### Step 4: Store in PostgreSQL (Optional)
+
+If you want to store the data in PostgreSQL:
+
+1. Install and start PostgreSQL
+2. Update database credentials in `src/store_reviews_postgres.py`
+3. Run:
+```bash
+python src/store_reviews_postgres.py
+```
+
+### Alternative: Run Individual Scripts
+
+You can also run the Python scripts directly:
+
+```bash
+# Scraping (if you prefer script over notebook)
+python -c "from src.review_scraper import GooglePlayScraper; scraper = GooglePlayScraper({'Ride': 'com.multibrains.taxi.passenger.ridepassengeret', 'Feres': 'com.feres.user'}); scraper.scrape(); scraper.save('data/raw_reviews.csv')"
+
+# Preprocessing
+python -c "from src.review_preprocessor import ReviewPreprocessor; p = ReviewPreprocessor('data/raw_reviews.csv', 'data/clean_reviews.csv'); p.load_data(); p.clean(); p.save()"
+```
+
+### Troubleshooting
+
+**Issue: Packages not installing**
+- Make sure you're using Python 3.10+
+- Try upgrading pip: `pip install --upgrade pip`
+
+**Issue: PostgreSQL connection error**
+- Make sure PostgreSQL is running
+- Check credentials in `src/store_reviews_postgres.py`
+- Create the database first: `createdb ridehailing_reviews`
+
+**Issue: Jupyter not found**
+- Install Jupyter: `pip install jupyter notebook`
+
+**Issue: Scraping fails**
+- Check internet connection
+- The Google Play Store might have rate limits
+- Try running with smaller batches
 
 ---
 
@@ -139,7 +240,7 @@ project/
 
 - Sentiment score computed for 90%+ of reviews
 
-- Minimum 3 themes per bank identified
+- Minimum 3 themes per provider identified
 
 - Modular pipeline with reusable classes for sentiment and thematic analysis
 

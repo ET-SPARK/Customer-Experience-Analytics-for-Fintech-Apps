@@ -15,7 +15,7 @@ class ReviewPreprocessor:
         self.df.drop_duplicates(subset=['review'], inplace=True)
         self.df.dropna(subset=['review', 'rating', 'date'], inplace=True)
         self.df['date'] = pd.to_datetime(self.df['date']).dt.strftime('%Y-%m-%d')
-        self.df = self.df[['review', 'rating', 'date', 'bank', 'source']]
+        self.df = self.df[['review', 'rating', 'date', 'provider', 'source']]
 
     def save(self):
         self.df.to_csv(self.output_path, index=False)
