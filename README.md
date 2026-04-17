@@ -1,8 +1,8 @@
-# Customer Experience Analytics for Ride-Hailing Apps in Ethiopia
+# Customer Experience Analytics for Ride-Hailing Driver Apps in Ethiopia
 
 ## Objective
 
-Analyze customer feedback from ride-hailing mobile apps to identify key satisfaction drivers and pain points through sentiment and thematic analysis.
+Analyze driver feedback from ride-hailing driver mobile apps to identify key satisfaction drivers and pain points through sentiment and thematic analysis.
 
 ---
 
@@ -10,9 +10,9 @@ Analyze customer feedback from ride-hailing mobile apps to identify key satisfac
 
 ### Methodology
 
-- Used `google-play-scraper` to collect reviews for 2 major Ethiopian ride-hailing apps:
-  - Ride (com.multibrains.taxi.passenger.ridepassengeret)
-  - Feres (com.feres.user)
+- Used `google-play-scraper` to collect reviews for 2 major Ethiopian ride-hailing driver apps:
+  - Ride Driver (com.multibrains.taxi.driver.ridepassengeret)
+  - Feres Driver (com.feres.driver)
 - Extracted:
   - `review`, `rating`, `date`, `provider`, `source`
 - Preprocessing steps:
@@ -23,8 +23,8 @@ Analyze customer feedback from ride-hailing mobile apps to identify key satisfac
 
 ### Dataset Stats
 
-- Ride: TBD reviews scraped
-- Feres: TBD reviews scraped
+- Ride Driver: TBD reviews scraped
+- Feres Driver: TBD reviews scraped
 - **Total cleaned reviews:** TBD
 
 ---
@@ -44,21 +44,23 @@ Analyze customer feedback from ride-hailing mobile apps to identify key satisfac
 
 - Used `spaCy` for lemmatization and tokenization
 - Extracted keywords using `TF-IDF` (with n-grams)
-- Manually grouped keywords into comprehensive themes per provider:
-  - **Driver Availability** - wait times, matching, cancellations
-  - **Pricing & Payment** - fares, payment methods, costs
-  - **App Performance** - crashes, bugs, speed, reliability
-  - **Navigation & GPS** - location accuracy, routing, pickup
-  - **Customer Service** - support quality, response time
-  - **UI/UX** - interface design, ease of use
-  - **Safety & Security** - trust, verification, security features
-  - **Driver Behavior** - professionalism, attitude, courtesy
-  - **Vehicle Quality** - cleanliness, comfort, condition
-  - **Booking & Scheduling** - reservation system, advance booking
-  - **Rating System** - feedback mechanisms
-  - **Promotions & Discounts** - offers, coupons, deals
-  - **Communication** - driver-passenger messaging, calls
-  - **Trip Experience** - overall ride quality and satisfaction
+- Manually grouped keywords into themes from DRIVER perspective (what drivers actually experience):
+  - **Earnings & Income** - payment, commission, withdrawals, salary (most important!)
+  - **Getting Trips** - trip requests, notifications, accepting/declining rides
+  - **Passenger Issues** - cancellations, no-shows, waiting for passengers, rude passengers
+  - **Navigation & Pickup** - GPS accuracy, finding pickup locations, wrong addresses
+  - **App Technical Issues** - crashes, bugs, freezing, errors, slow performance
+  - **Online/Offline Status** - going online, shift management, availability
+  - **Company Support** - help desk, complaint resolution, response time
+  - **App Interface** - ease of use, button placement, screen design
+  - **Driver Rating** - ratings from passengers, unfair ratings, reputation
+  - **Account & Verification** - registration, document approval, verification process
+  - **Passenger Communication** - calling/messaging passengers, contact issues
+  - **Trip History** - viewing past trips, earnings reports, trip logs
+  - **Bonuses & Incentives** - peak hour bonuses, rewards, promotions
+  - **Battery & Data** - battery drain, data consumption, network issues
+  - **Login Issues** - sign-in problems, password, OTP issues
+  - **App Updates** - new versions, update problems
 - Added column `identified_theme`
 - Output: `data/thematic_reviews.csv`
 
